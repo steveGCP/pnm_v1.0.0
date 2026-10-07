@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Pitch'n'Match{% endblock %}</title>
+</head>
+<body>
+    <nav style="background: #f8f9fa; padding: 10px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between;">
+        <div>
+            <strong>Pitch'n'Match</strong>
+            <a href="{% url 'index' %}" style="margin-left: 15px;">Accueil</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" style="margin-left: 15px;">Dashboard</a>
+            {% endif %}
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <span style="margin-right: 15px;">👤 {{ user.username }}</span>
+                <a href="{% url 'logout' %}">Déconnexion</a>
+            {% else %}
+                <a href="{% url 'login' %}">Connexion</a>
+                <a href="{% url 'signUp' %}" style="margin-left: 15px;">Inscription</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div style="padding: 20px;">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

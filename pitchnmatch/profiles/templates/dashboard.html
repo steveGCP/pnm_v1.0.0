@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Pitch'n'Match{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Pitch & Match {{ user.username }}</h1>
+    <h2>Please Share with us Your project, and we will help you find the best co-founder</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" style="padding: 10px; background-color: #28a745; color: white; border: none; cursor: pointer; border-radius: 5px;">
+            Enregistrer mon projet et lancer le Matching
+        </button>
+    </form>
+
+    <hr style="margin-top: 40px; margin-bottom: 20px;">
+
+    <h2>🚀 Tes Meilleurs Matchs (Top 5)</h2>
+    {% if matches %}
+        <table border="1" cellpadding="10" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Utilisateur / Projet</th>
+                    <th>Score de Compatibilité</th>
+                    <th>Explication de l'IA</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for match in matches %}
+                <tr>
+                    <td>
+                        <strong>
+                            {% if match.project1.user == user %}
+                                {{ match.project2.user.username }}
+                            {% else %}
+                                {{ match.project1.user.username }}
+                            {% endif %}
+                        </strong><br>
+                        {% if match.project1.user == user %}
+                            {{ match.project2.name }}
+                        {% else %}
+                            {{ match.project1.name }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <h2 style="color: {% if match.score >= 70 %}green{% elif match.score >= 40 %}orange{% else %}red{% endif %};">
+                            {{ match.score }}%
+                        </h2>
+                    </td>
+                    <td>{{ match.explanation }}</td>
+                    <td>
+                        <button style="padding: 5px 15px; background: #007bff; color: white; border: none; cursor: pointer;">
+                            Match 💬
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun match n'a encore été trouvé. Enregistre ton projet pour lancer l'analyse !</p>
+    {% endif %}
+
+{% endblock %}

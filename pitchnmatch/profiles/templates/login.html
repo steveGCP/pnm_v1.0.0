@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Connexion - Pitch'n'Match{% endblock %}
+
+{% block content %}
+    <h2>Connexion</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px;">Se connecter</button>
+    </form>
+{% endblock %}

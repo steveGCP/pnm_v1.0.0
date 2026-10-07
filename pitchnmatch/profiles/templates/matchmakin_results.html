@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pitch'n'Match - Résultats</title>
+</head>
+
+<body>
+    <h1>Tes Meilleurs Matchs 🚀</h1>
+    <a href="{% url 'dashboard' %}">Retour au Dashboard</a>
+
+    <table border="1" cellpadding="10" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>Utilisateur / Projet</th>
+                <th>Score de Compatibilité</th>
+                <th>Explication de l'IA</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in matches %}
+            <tr>
+                <td><strong>{{ match.project.user.username }}</strong><br>{{ match.project.name }}</td>
+                <td>
+                    <h2
+                        style="color: {% if match.score >= 70 %}green{% elif match.score >= 40 %}orange{% else %}red{% endif %};">
+                        {{ match.score }}%
+                    </h2>
+                </td>
+                <td>{{ match.explanation }}</td>
+                <td>
+                    <button
+                        style="padding: 5px 15px; background: #28a745; color: white; border: none; cursor: pointer;">
+                        Match 💬
+                    </button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Aucun autre projet trouvé pour faire un match.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
